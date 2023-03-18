@@ -8,7 +8,9 @@ def show_messages(text):
     text.text_area("Messages", value=str("\n\n".join(messages_str)), height=400)
 
 BASE_PROMPT = [
-    {"role": "system", "content": "You are a helpful assistant."}
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "system", "content": "对于提问的语言，你将偏向相同的语言的文化思维进行回答."},
+    {"role": "system", "content": "适当多给出一些建议."}
 ]
 
 if "messages" not in st.session_state:
@@ -26,10 +28,11 @@ if st.button("Send"):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=st.session_state["messages"],
-            #temperature =0,
-            #max_tokens=1000,
-            #top_p=1.0,
-            #presence_penalty=0,
+            temperature =1,
+            max_tokens=1000,
+            top_p=1.0,
+            n=1,
+            presence_penalty=0,
         )
         message_response = response["choices"][0]["message"]["content"]
         st.session_state["messages"] += [
