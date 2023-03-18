@@ -8,10 +8,7 @@ def show_messages(text):
     text.text_area("Messages", value=str("\n\n".join(messages_str)), height=400)
 
 BASE_PROMPT = [
-    {"role": "system", "content": "You are a helpful assistant."},
-    {"role": "user", "content": "Who won the world series in 2020?"},
-    {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
-    {"role": "user", "content": "Where was it played?"}
+    {"role": "system", "content": "You are a helpful assistant."}
 ]
 
 if "messages" not in st.session_state:
