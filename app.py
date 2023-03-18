@@ -17,10 +17,10 @@ st.subheader("ChatGPT @OneSun Personal Public Platform")
 openai.api_key = st.text_input("Paste your OpenAI Key here",value="", type ="password")
 promt = st.text_input("Prompt",value = "Enter your message here...")
 
-# 生成回答
+
 if st.button("Send"):
     with st.spinner("Generating response..."):
-        st.session_state["message"] += [{"role": "user", "content": prompt}]
+        st.session_state["messages"] += [{"role": "user", "content": prompt}]
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", message=st.session_state["messages"]
         )
