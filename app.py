@@ -7,7 +7,12 @@ def show_messages(text):
     ]
     text.text_area("Messages", value=str("\n\n".join(messages_str)), height=400)
 
-BASE_PROMPT = [{"role": "system", "content": "You are a helpful assistant."}]
+BASE_PROMPT = [
+    {"role": "system", "content": "You are a helpful assistant."}
+    {"role": "user", "content": "Who won the world series in 2020?"},
+    {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+    {"role": "user", "content": "Where was it played?"}
+]
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = BASE_PROMPT
@@ -15,14 +20,19 @@ if "messages" not in st.session_state:
 st.subheader("ChatGPT @OneSun Personal Public Platform")
 
 openai.api_key = st.text_input("Paste your OpenAI Key here",value="", type ="password")
-promt = st.text_input("Prompt",value = "Enter your message here...")
+prompt = st.text_input("Prompt",value = "Enter your message here...")
 
 
 if st.button("Send"):
     with st.spinner("Generating response..."):
         st.session_state["messages"] += [{"role": "user", "content": prompt}]
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo", messages=st.session_state["messages"]
+            model="gpt-3.5-turbo",
+            messages=st.session_state["messages"],
+            temperature =0,
+            max_tokens=1000,
+            top_p=1.0,
+            presence_penalty=0,
         )
         message_response = response["choices"][0]["message"]["content"]
         st.session_state["messages"] += [
